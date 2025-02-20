@@ -13,6 +13,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('employees_data'));
@@ -53,6 +54,14 @@ const Dashboard = ({ setIsAuthenticated }) => {
     });
   };
 
+  const handleSort = key => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  };
+
   return (
     <div className="container">
       {!isAdding && !isEditing && (
@@ -65,6 +74,8 @@ const Dashboard = ({ setIsAuthenticated }) => {
             employees={employees}
             handleEdit={handleEdit}
             handleDelete={handleDelete}
+            handleSort={handleSort}
+            sortConfig={sortConfig}
           />
         </>
       )}
